@@ -242,21 +242,258 @@ POST Request
 → Structured Output
 → Supabase
 
-## Next Development Step
+## Business Rules and Routing
 
-Add deterministic business rules after the AI analysis.
+After the lead has been stored in Supabase, the workflow uses an n8n Switch node called:
 
-The AI will interpret the customer's message, while n8n will decide what workflow action should happen based on the structured output.
+Route Lead
 
-Example:
+The purpose of this node is to separate AI interpretation from deterministic workflow execution.
 
-priority = high
-→ urgent processing route
+The AI determines the category of the request.
 
-category = Support
-→ support route
+n8n then applies predefined routing rules.
+
+Current routing logic:
+
+Sales
+→ Update Sales Lead
+→ status = sales_review
+
+Support
+→ Update Support Lead
+→ status = support_review
+
+Administration
+→ Update Administration Lead
+→ status = administration_review
+
+Any unmatched category
+→ Fallback
+→ status = manual_review
+
+---
+
+## Switch Configuration
+
+The Route Lead node evaluates:
+
+{{ $json.category }}
+
+Current routing rules:
+
+Rule 1
 
 category = Sales
-→ sales route
 
-This separation keeps AI interpretation separate from workflow logic.
+Output:
+
+Sales
+
+Rule 2
+
+category = Support
+
+Output:
+
+Support
+
+Rule 3
+
+category = Administration
+
+Output:
+
+Administration
+
+Fallback Output:
+
+Any category not matching the rules above.
+
+Examples include:
+
+- Partnership
+- Other
+- unexpected AI output
+
+These requests are sent to manual review.
+
+---
+
+## Status Update Nodes
+
+Each Switch output is connected to a Supabase Update Row node.
+
+All update nodes identify the lead using its unique database ID.
+
+Filter:
+
+id
+Equals
+{{ $json.id }}
+
+Only the status field is updated.
+
+### Sales
+
+status = sales_review
+
+### Support
+
+status = support_review
+
+### Administration
+
+status = administration_review
+
+### Fallback
+
+status = manual_review
+
+---
+
+## Current End-to-End Workflow
+
+Webhook
+↓
+Edit Fields
+↓
+AI - Analyze Lead
+↓
+Prepare Lead Record
+↓
+Create a Row - Supabase
+↓
+Route Lead
+├── Sales
+│   ↓
+│   Update Sales Lead
+│   ↓
+│   sales_review
+│
+├── Support
+│   ↓
+│   Update Support Lead
+│   ↓
+│   support_review
+│
+├── Administration
+│   ↓
+│   Update Administration Lead
+│   ↓
+│   administration_review
+│
+└── Fallback
+    ↓
+    Update Manual Review
+    ↓
+    manual_review
+
+---
+
+## Tested Scenarios
+
+### Sales Lead
+
+Example message:
+
+Vorrei automatizzare la gestione delle fatture.
+
+Result:
+
+category = Sales
+
+priority = medium
+
+status = sales_review
+
+---
+
+### Support Lead
+
+Example message:
+
+Il nostro servizio non funziona da questa mattina e abbiamo bisogno di assistenza urgente.
+
+Result:
+
+category = Support
+
+priority = high
+
+next_action = Route to support
+
+status = support_review
+
+---
+
+### Administration Lead
+
+Example message:
+
+Avrei bisogno di una copia della fattura relativa al nostro ultimo pagamento.
+
+Result:
+
+category = Administration
+
+status = administration_review
+
+---
+
+### Partnership Lead
+
+Example message:
+
+Vorremmo proporvi una partnership per un evento aziendale.
+
+Result:
+
+category = Partnership
+
+status = manual_review
+
+The Partnership category does not have a dedicated workflow branch in the current MVP.
+
+It is therefore handled by the fallback route.
+
+---
+
+## Validated MVP
+
+The following process has now been successfully tested end-to-end:
+
+HTTP POST Request
+→ n8n Webhook
+→ Data Normalization
+→ AI Classification
+→ Structured AI Output
+→ Supabase Record Creation
+→ Deterministic Routing
+→ Supabase Status Update
+
+The backend workflow is now ready to be connected to a frontend interface.
+
+---
+
+## Next Development Step
+
+Build a Lovable frontend connected to Supabase.
+
+The first dashboard should provide:
+
+- total number of leads
+- new leads
+- sales leads
+- support leads
+- administration leads
+- leads requiring manual review
+- latest incoming leads
+- lead details
+- AI-generated category
+- priority
+- summary
+- recommended next action
+- current workflow status
+
+The frontend should act as the operational interface for the SME user, while n8n remains responsible for workflow orchestration and AI processing.
