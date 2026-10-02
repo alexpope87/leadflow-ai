@@ -87,3 +87,127 @@ Webhook → Data normalization → Supabase
 No credentials or API keys are stored in this repository.
 
 Sensitive values such as database credentials and API keys must be managed through environment variables or secure credential stores.
+
+## MVP Validation
+
+The LeadFlow AI MVP has been tested successfully end-to-end.
+
+The validated workflow is:
+
+Incoming Lead
+→ n8n Webhook
+→ Data Normalization
+→ AI Classification
+→ Structured Output
+→ Supabase Record Creation
+→ Deterministic Routing
+→ Status Update
+→ Lovable Dashboard
+
+### Tested Scenarios
+
+The workflow has been tested with different types of inbound requests:
+
+- Sales
+- Support
+- Administration
+- Partnership / Manual Review
+
+The AI classifies the incoming request, while n8n applies deterministic workflow rules.
+
+Example routing:
+
+Sales
+→ sales_review
+
+Support
+→ support_review
+
+Administration
+→ administration_review
+
+Other or unmatched categories
+→ manual_review
+
+### End-to-End Test
+
+A new test lead was submitted through the production n8n webhook.
+
+The system automatically:
+
+1. received the inbound request
+2. normalized the lead information
+3. analyzed the message using AI
+4. generated structured classification data
+5. stored the lead in Supabase
+6. routed the lead using n8n business rules
+7. updated the workflow status
+8. displayed the new lead automatically in the Lovable dashboard
+
+No manual database or frontend update was required.
+
+This confirmed that the MVP works as an integrated automation system rather than as separate disconnected components.
+
+## Screenshots
+
+### n8n Workflow
+
+![n8n Workflow](screenshots/01-n8n-workflow.png)
+
+### LeadFlow Dashboard
+
+![LeadFlow Dashboard](screenshots/02-dashboard.png)
+
+### Lead Detail
+
+![Lead Detail](screenshots/03-lead-detail.png)
+
+### Supabase Data
+
+![Supabase Leads](screenshots/04-supabase-leads.png)
+
+## Current Architecture
+
+Lead Source
+↓
+n8n Webhook
+↓
+Data Normalization
+↓
+AI Classification
+↓
+Structured Output
+↓
+Supabase
+↓
+Business Routing
+↓
+Status Update
+↓
+Lovable Dashboard
+
+## What This MVP Demonstrates
+
+- workflow automation with n8n
+- AI-assisted text classification
+- structured AI output
+- deterministic business routing
+- backend persistence with Supabase
+- Row Level Security and authenticated dashboard access
+- frontend dashboard with Lovable
+- end-to-end integration between multiple platforms
+- documentation and version control with GitHub
+
+## Next Possible Improvements
+
+Future versions could include:
+
+- AI-generated reply drafts
+- human approval before sending responses
+- email notifications
+- automatic department notifications
+- duplicate lead detection
+- CRM integration
+- workflow analytics
+- response-time tracking
+- additional user roles and permissions
