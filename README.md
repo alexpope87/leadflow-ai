@@ -12,7 +12,7 @@ Built independently as a portfolio project to explore how AI can be integrated i
 
 ## 🔗 Project Links
 
-**Live Demo:** [Add URL]  
+**Live Demo:** https://lead-watch-guide.lovable.app 
 **GitHub:** https://github.com/alexpope87/leadflow-ai
 
 ---
@@ -98,23 +98,9 @@ The current MVP processes:
 - n8n — workflow automation and orchestration
 - Supabase — database and backend
 - Lovable — frontend and dashboard
-- AI / LLM — lead classification and response generation
+- AI / LLM — lead classification and structured output generation
 - GitHub — documentation and version control
 
-## Project Status
-
-### Completed
-
-Webhook → Data normalization → Supabase
-
-### Next Steps
-
-- Add AI lead classification
-- Extract structured lead information
-- Add priority and category rules
-- Generate suggested next actions
-- Build a Lovable dashboard
-- Add human approval for AI-generated responses
 
 ## Security
 
