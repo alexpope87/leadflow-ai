@@ -1,52 +1,86 @@
 # LeadFlow AI
 
-LeadFlow AI is a simple AI-powered lead intake and qualification workflow designed as an MVP for small and medium-sized businesses.
+**AI-powered lead intake, classification and workflow automation MVP**
 
-The goal of the project is to automate the first steps of lead handling: receiving a request, structuring the data, storing it, and later classifying it with AI.
+LeadFlow AI is a functional automation MVP designed to demonstrate how inbound business requests can be automatically received, analyzed with AI, classified and routed through a structured workflow.
 
-## Business Problem
+The project combines **n8n workflow orchestration, AI classification, deterministic business rules, Supabase persistence and a Lovable dashboard**.
 
-Many SMEs receive customer or sales requests through website forms, email, or other channels.
+Built independently as a portfolio project to explore how AI can be integrated into real business process automation.
 
-These requests often need to be manually reviewed before they can be stored, classified, and assigned to the appropriate next action.
+---
 
-LeadFlow AI demonstrates how this process can be partially automated using a lightweight workflow.
+## 🔗 Project Links
 
-## MVP Flow
+**Live Demo:** [Add URL]  
+**GitHub:** https://github.com/alexpope87/leadflow-ai
 
-Current version:
+---
 
-Lead Request
-↓
+## 🎯 Business Problem
+
+SMEs receive customer and sales requests through websites, forms, email and other channels.
+
+These requests often require someone to manually:
+
+- read the incoming message
+- understand the type of request
+- categorize it
+- enter the information into a system
+- decide which team or workflow should handle it
+- track its status
+
+LeadFlow AI explores how these repetitive steps can be automated while keeping deterministic business rules around AI-generated classifications.
+
+---
+
+## 🚀 What I Built
+
+I designed and implemented an end-to-end automated lead processing workflow:
+
+```text
+Incoming Lead
+      ↓
 n8n Webhook
-↓
-Edit Fields / Data Normalization
-↓
-Supabase
-
-Planned version:
-
-Lead Request
-↓
-n8n Webhook
-↓
+      ↓
 Data Normalization
-↓
+      ↓
 AI Classification
-↓
-Business Rules
-↓
+      ↓
+Structured Output
+      ↓
 Supabase
-↓
+      ↓
+Deterministic Business Routing
+      ↓
+Status Update
+      ↓
 Lovable Dashboard
+```
 
-## Current Features
+The AI interprets the incoming message and produces structured classification data.
 
-- Receives lead data through an n8n webhook
-- Normalizes incoming JSON data
-- Creates a new lead record in Supabase
-- Automatically generates record ID and creation timestamp
-- Stores leads for future AI processing
+**n8n controls the workflow and applies deterministic routing rules based on the AI output.**
+
+This separates AI interpretation from business process control.
+
+---
+
+## ✨ Current Features
+
+- inbound lead capture through an n8n webhook
+- automatic JSON data normalization
+- AI-powered message classification
+- structured AI output
+- deterministic category-based routing
+- automatic Supabase record creation
+- workflow status management
+- Lovable dashboard connected to Supabase
+- authenticated dashboard access
+- Row Level Security
+- end-to-end workflow testing
+
+The complete workflow runs automatically from incoming request to dashboard without manual database updates.
 
 ## Lead Data
 
