@@ -17,7 +17,7 @@ Built independently as a portfolio project to explore how AI can be integrated i
 
 ---
 
-## 🎯 Business Problem
+##  Business Problem
 
 SMEs receive customer and sales requests through websites, forms, email and other channels.
 
@@ -34,7 +34,7 @@ LeadFlow AI explores how these repetitive steps can be automated while keeping d
 
 ---
 
-## 🚀 What I Built
+## What I Built
 
 I designed and implemented an end-to-end automated lead processing workflow:
 
@@ -66,7 +66,7 @@ This separates AI interpretation from business process control.
 
 ---
 
-## ✨ Current Features
+## Current Features
 
 - inbound lead capture through an n8n webhook
 - automatic JSON data normalization
